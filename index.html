@@ -1,586 +1,770 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="ADHD OS"/>
 <title>ADHD OS</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0f0f0f; --surface: #181818; --surface-h: #1f1f1f; --border: #2a2a2a;
-    --accent: #e8ff47; --work: #4da6ff; --personal: #ff7b47; --done: #4dff91;
-    --text: #f0f0f0; --muted: #666; --danger: #ff4d4d;
-  }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  select option { background: #1a1a1a; }
-  button, input, select { font-family: inherit; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#080808;
+  --s0:#0e0e0e;
+  --s1:#141414;
+  --s2:#1c1c1c;
+  --s3:#242424;
+  --border:#2e2e2e;
+  --border2:#3a3a3a;
+  --accent:#c9f53b;
+  --accent2:#a8d420;
+  --work:#60b3ff;
+  --work-bg:#0d1f2f;
+  --personal:#ff8c5a;
+  --personal-bg:#2a1208;
+  --done:#50e89a;
+  --text:#f5f5f5;
+  --text2:#a0a0a0;
+  --text3:#606060;
+  --danger:#ff5252;
+  --radius:14px;
+  --radius-sm:9px;
+}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;min-height:-webkit-fill-available;overflow-x:hidden}
+input,button,select,textarea{font-family:inherit;-webkit-appearance:none}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+select option{background:#1a1a1a}
 
-  /* ── Setup screen ── */
-  .setup-screen {
-    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
-  }
-  .setup-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 40px 36px; max-width: 500px; width: 100%;
-  }
-  .setup-logo { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: 1px; margin-bottom: 6px; }
-  .setup-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-  .setup-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
-  .setup-steps { margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
-  .setup-step { display: flex; gap: 12px; align-items: flex-start; }
-  .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #000; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-family: 'DM Mono', monospace; }
-  .step-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
-  .step-text a { color: var(--accent); text-decoration: none; }
-  .step-text a:hover { text-decoration: underline; }
-  .setup-field-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1px; margin-bottom: 6px; }
-  .setup-input { width: 100%; background: #111; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-size: 13px; outline: none; margin-bottom: 12px; }
-  .setup-input:focus { border-color: var(--accent); }
-  .setup-input.error { border-color: var(--danger); }
-  .setup-btn { width: 100%; background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 12px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'DM Mono', monospace; letter-spacing: 0.5px; margin-top: 4px; }
-  .setup-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .setup-error { font-size: 12px; color: var(--danger); margin-top: 8px; display: none; }
-  .setup-note { font-size: 11px; color: var(--muted); margin-top: 16px; text-align: center; line-height: 1.5; }
+/* ─── SETUP ─── */
+.setup-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(–bg)}
+.setup-card{background:var(–s1);border:1px solid var(–border);border-radius:20px;padding:36px 32px;max-width:460px;width:100%}
+.setup-wordmark{font-family:‘Syne’,sans-serif;font-size:22px;font-weight:800;color:var(–accent);letter-spacing:-.5px;margin-bottom:4px}
+.setup-headline{font-size:17px;font-weight:600;color:var(–text);margin-bottom:8px}
+.setup-body{font-size:13px;color:var(–text2);line-height:1.65;margin-bottom:28px}
+.steps{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step-n{width:20px;height:20px;border-radius:50%;background:var(–accent);color:#000;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-family:‘JetBrains Mono’,monospace}
+.step-t{font-size:13px;color:var(–text2);line-height:1.5}
+.step-t a{color:var(–accent);text-decoration:none}
+.field-label{font-family:‘JetBrains Mono’,monospace;font-size:10px;font-weight:600;color:var(–text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.setup-input{width:100%;background:var(–s0);border:1px solid var(–border);border-radius:var(–radius-sm);padding:11px 14px;color:var(–text);font-size:14px;outline:none;margin-bottom:14px;transition:border-color .2s}
+.setup-input:focus{border-color:var(–accent)}
+.setup-cta{width:100%;background:var(–accent);color:#000;border:none;border-radius:var(–radius-sm);padding:13px;font-weight:700;font-size:14px;cursor:pointer;font-family:‘Syne’,sans-serif;letter-spacing:.3px;margin-top:4px;transition:opacity .15s}
+.setup-cta:disabled{opacity:.45;cursor:not-allowed}
+.setup-err{font-size:12px;color:var(–danger);margin-top:10px;display:none}
+.setup-note{font-size:11px;color:var(–text3);margin-top:16px;text-align:center;line-height:1.6}
 
-  /* ── Header ── */
-  .header { border-bottom: 1px solid var(--border); padding: 13px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
-  .logo { font-family: 'DM Mono', monospace; font-weight: 700; font-size: 15px; color: var(--accent); letter-spacing: 1px; }
-  .logo-sub { font-size: 10px; color: var(--muted); letter-spacing: 0.5px; }
-  .spacer { flex: 1; }
-  .sync-badge {
-    display: flex; align-items: center; gap: 5px;
-    font-family: 'DM Mono', monospace; font-size: 10px; cursor: default;
-    padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);
-    transition: all 0.3s;
-  }
-  .sync-dot { width: 6px; height: 6px; border-radius: 50%; transition: all 0.3s; }
+/* ─── HEADER ─── */
+#header{
+border-bottom:1px solid var(–border);
+padding:13px 20px;
+display:flex;align-items:center;gap:10px;
+position:sticky;top:0;
+background:rgba(8,8,8,.92);
+backdrop-filter:blur(16px);
+-webkit-backdrop-filter:blur(16px);
+z-index:100;
+}
+.wordmark{font-family:‘Syne’,sans-serif;font-weight:800;font-size:17px;color:var(–accent);letter-spacing:-.3px}
+.wordmark-sub{font-size:10px;color:var(–text3);font-family:‘JetBrains Mono’,monospace;letter-spacing:.5px;margin-top:1px}
+.hdr-spacer{flex:1}
+.bin-id{font-family:‘JetBrains Mono’,monospace;font-size:9px;color:var(–text3);padding:3px 7px;border:1px solid var(–border);border-radius:5px;cursor:default}
+.sync-pill{display:flex;align-items:center;gap:5px;font-family:‘JetBrains Mono’,monospace;font-size:10px;padding:5px 10px;border-radius:20px;border:1px solid var(–border);background:var(–s1);cursor:pointer;transition:all .2s;user-select:none}
+.sync-dot{width:6px;height:6px;border-radius:50%;transition:all .3s;flex-shrink:0}
+.gear-btn{background:none;border:none;color:var(–text3);cursor:pointer;font-size:16px;padding:4px;line-height:1;transition:color .2s}
+.gear-btn:hover{color:var(–text2)}
 
-  /* ── Tabs ── */
-  .tabs { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; padding: 0 20px; scrollbar-width: none; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab-btn { background: none; border: none; padding: 12px 13px; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; color: var(--muted); border-bottom: 2px solid transparent; transition: color 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 5px; letter-spacing: 0.5px; }
-  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .badge { background: var(--accent); color: #000; border-radius: 10px; padding: 1px 5px; font-size: 9px; font-weight: 900; }
+/* ─── TABS ─── */
+#tabs{
+display:flex;
+border-bottom:1px solid var(–border);
+overflow-x:auto;
+padding:0 16px;
+scrollbar-width:none;
+background:var(–bg);
+position:sticky;top:49px;z-index:99;
+}
+#tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:none;padding:11px 14px;cursor:pointer;font-family:‘JetBrains Mono’,monospace;font-size:10px;font-weight:600;color:var(–text3);border-bottom:2px solid transparent;transition:color .15s;white-space:nowrap;display:flex;align-items:center;gap:5px;letter-spacing:.5px}
+.tab.on{color:var(–accent);border-bottom-color:var(–accent)}
+.tab-badge{background:var(–accent);color:#000;border-radius:8px;padding:1px 5px;font-size:9px;font-weight:700}
 
-  /* ── Content ── */
-  .content { max-width: 720px; margin: 0 auto; padding: 24px 20px 80px; display: flex; flex-direction: column; gap: 20px; }
+/* ─── LAYOUT ─── */
+#main{max-width:680px;margin:0 auto;padding:20px 16px 100px}
+.section{display:flex;flex-direction:column;gap:16px}
 
-  /* ── Cards ── */
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .card-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .card-title { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
-  .card-title.accent { color: var(--accent); }
-  .clock-card { background: linear-gradient(135deg,#181818 0%,#1b200a 100%); border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-  .clock { font-size: 40px; font-weight: 900; color: var(--accent); font-family: 'DM Mono', monospace; line-height: 1; }
-  .date-str { color: var(--muted); font-size: 13px; margin-top: 4px; }
-  .pct { font-size: 32px; font-weight: 900; color: var(--text); font-family: 'DM Mono', monospace; text-align: right; }
-  .pct-sub { color: var(--muted); font-size: 12px; text-align: right; }
-  .pct-tags { display: flex; gap: 10px; margin-top: 6px; justify-content: flex-end; }
-  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
+/* ─── CARDS ─── */
+.card{background:var(–s1);border:1px solid var(–border);border-radius:var(–radius);overflow:hidden}
+.card-hdr{padding:13px 16px;border-bottom:1px solid var(–border);display:flex;justify-content:space-between;align-items:center}
+.card-title{font-family:‘JetBrains Mono’,monospace;font-size:10px;font-weight:600;color:var(–text3);letter-spacing:1px}
+.card-title.hi{color:var(–accent)}
+.card-hint{font-size:11px;color:var(–text3)}
 
-  /* ── Tasks ── */
-  .task-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; transition: background 0.15s; }
-  .task-item:hover { background: var(--surface-h); }
-  .task-item.done { opacity: 0.4; }
-  .check-btn { width: 18px; height: 18px; border-radius: 4px; border: 2px solid var(--border); background: transparent; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-  .check-btn.checked { border-color: var(--done); background: #4dff9122; }
-  .check-icon { color: var(--done); font-size: 11px; font-weight: 900; display: none; }
-  .check-btn.checked .check-icon { display: block; }
-  .task-text { flex: 1; font-size: 14px; color: var(--text); }
-  .task-item.done .task-text { text-decoration: line-through; }
-  .del-btn { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 16px; padding: 0 4px; opacity: 0; line-height: 1; }
-  .task-item:hover .del-btn { opacity: 0.6; }
-  .tag { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px; letter-spacing: 1px; font-family: 'DM Mono', monospace; flex-shrink: 0; }
-  .tag-work { background: #1a2d3d; color: var(--work); }
-  .tag-personal { background: #3d1a0f; color: var(--personal); }
-  .priority-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+/* ─── CLOCK CARD ─── */
+.clock-card{
+background:linear-gradient(135deg,#0e0e0e 0%,#111700 100%);
+border:1px solid var(–border);border-radius:var(–radius);
+padding:22px 20px;
+display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;
+position:relative;overflow:hidden;
+}
+.clock-card::before{
+content:’’;position:absolute;top:-40px;right:-40px;
+width:160px;height:160px;
+background:radial-gradient(circle,rgba(201,245,59,.06) 0%,transparent 70%);
+pointer-events:none;
+}
+.clock-val{font-family:‘Syne’,sans-serif;font-size:44px;font-weight:800;color:var(–accent);line-height:1;letter-spacing:-2px}
+.clock-date{font-size:12px;color:var(–text3);margin-top:5px;font-family:‘JetBrains Mono’,monospace;letter-spacing:.3px}
+.pct-val{font-family:‘Syne’,sans-serif;font-size:36px;font-weight:800;color:var(–text);text-align:right;line-height:1}
+.pct-lbl{font-size:11px;color:var(–text3);text-align:right;margin-top:3px}
+.pct-tags{display:flex;gap:10px;margin-top:8px;justify-content:flex-end}
+.pct-tag{font-size:11px;font-family:‘JetBrains Mono’,monospace}
 
-  /* ── Add bar ── */
-  .add-bar { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .add-input { flex: 1 1 140px; min-width: 0; background: #111; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; color: var(--text); font-size: 13px; outline: none; }
-  .add-input:focus { border-color: #444; }
-  .add-select { background: #111; border: 1px solid var(--border); border-radius: 8px; font-size: 12px; padding: 0 8px; font-family: 'DM Mono', monospace; cursor: pointer; height: 36px; }
-  .add-btn { background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 0 16px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'DM Mono', monospace; height: 36px; }
+/* ─── PROGRESS ─── */
+.prog-wrap{height:2px;background:var(–s3);border-radius:1px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(–accent2),var(–accent));border-radius:1px;transition:width .6s cubic-bezier(.4,0,.2,1)}
 
-  /* ── Misc ── */
-  .anchor-row { display: flex; align-items: center; gap: 16px; padding: 14px 18px; }
-  .anchor-row + .anchor-row { border-top: 1px solid var(--border); }
-  .anchor-time { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); margin-left: auto; white-space: nowrap; }
-  .dump-row { display: flex; align-items: center; padding: 10px 14px; gap: 10px; border-bottom: 1px solid var(--border); }
-  .pull-btn { background: #e8ff4722; color: var(--accent); border: 1px solid #e8ff4744; border-radius: 6px; padding: 4px 10px; font-size: 11px; cursor: pointer; font-weight: 700; font-family: 'DM Mono', monospace; }
-  .check-row { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; }
-  .check-row + .check-row { border-top: 1px solid var(--border); }
-  .check-row.done-row { opacity: 0.4; }
-  .review-text { font-size: 14px; color: var(--text); }
-  .check-row.done-row .review-text { text-decoration: line-through; }
-  .empty { padding: 32px; text-align: center; color: var(--muted); font-size: 14px; }
-  .pri-group-label { padding: 8px 14px 4px; font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
-  .stat-block { font-size: 30px; font-weight: 900; font-family: 'DM Mono', monospace; }
-  .stat-label { font-size: 12px; color: var(--muted); }
-  .stats-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 16px; }
-  .dump-header { background: linear-gradient(135deg,#181818,#1a1208); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
-  .cat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
-  .weekly-header { background: linear-gradient(135deg,#181818,#080f18); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-  .reminders-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-  .clear-btn { background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 11px; padding: 6px 12px; cursor: pointer; font-family: 'DM Mono', monospace; }
-  .reminder-row { display: flex; gap: 12px; padding: 8px 0; }
-  .reminder-row + .reminder-row { border-top: 1px solid var(--border); }
-  .loading-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; color: var(--accent); font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: 2px; flex-direction: column; gap: 12px; }
-  .loading-sub { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
-  .reset-link { font-size: 10px; color: var(--muted); cursor: pointer; font-family: 'DM Mono', monospace; text-decoration: underline; letter-spacing: 0.5px; }
-  .reset-link:hover { color: var(--danger); }
+/* ─── TASKS ─── */
+.task{display:flex;align-items:center;gap:10px;padding:12px 16px;transition:background .12s;position:relative}
+.task:active{background:var(–s2)}
+.task.faded{opacity:.38}
+.task.faded .task-txt{text-decoration:line-through}
+.chk{width:20px;height:20px;border-radius:5px;border:1.5px solid var(–border2);background:transparent;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.chk.on{border-color:var(–done);background:rgba(80,232,154,.12)}
+.chk-mark{color:var(–done);font-size:12px;font-weight:700;display:none}
+.chk.on .chk-mark{display:block}
+.task-txt{flex:1;font-size:14px;color:var(–text);line-height:1.4}
+.tag{font-size:9px;font-weight:600;padding:3px 7px;border-radius:4px;letter-spacing:.8px;font-family:‘JetBrains Mono’,monospace;flex-shrink:0}
+.tw{background:var(–work-bg);color:var(–work)}
+.tp{background:var(–personal-bg);color:var(–personal)}
+.pdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.del{background:none;border:none;color:var(–danger);cursor:pointer;font-size:18px;padding:0 2px;opacity:0;line-height:1;transition:opacity .15s;flex-shrink:0}
+.task:hover .del{opacity:.5}
+/* mobile: always show del */
+@media(hover:none){.del{opacity:.35}}
+.task+.task{border-top:1px solid var(–border)}
+.pri-label{padding:8px 16px 4px;font-size:9px;color:var(–text3);font-family:‘JetBrains Mono’,monospace;letter-spacing:1px;display:flex;align-items:center;gap:6px;text-transform:uppercase}
+
+/* ─── BRAIN DUMP INPUT (mobile-safe) ─── */
+.dump-composer{padding:14px 16px;border-bottom:1px solid var(–border);display:flex;flex-direction:column;gap:10px}
+.dump-textarea{
+width:100%;background:var(–s0);border:1.5px solid var(–border);
+border-radius:10px;padding:12px 14px;color:var(–text);font-size:15px;
+outline:none;resize:none;min-height:52px;line-height:1.5;
+transition:border-color .2s;
+/* CRITICAL: prevent iOS zoom */
+font-size:16px;
+}
+.dump-textarea:focus{border-color:var(–accent)}
+.dump-composer-row{display:flex;gap:8px;align-items:center}
+.pill-sel{
+background:var(–s2);border:1px solid var(–border);border-radius:20px;
+font-size:11px;padding:6px 12px;color:var(–text2);
+font-family:‘JetBrains Mono’,monospace;cursor:pointer;height:34px;
+transition:all .15s;
+}
+.pill-sel.cat-work{color:var(–work);border-color:var(–work-bg);background:var(–work-bg)}
+.pill-sel.cat-personal{color:var(–personal);border-color:var(–personal-bg);background:var(–personal-bg)}
+.dump-add-btn{
+margin-left:auto;background:var(–accent);color:#000;border:none;
+border-radius:20px;padding:0 18px;font-weight:700;font-size:12px;
+cursor:pointer;font-family:‘JetBrains Mono’,monospace;height:34px;
+letter-spacing:.3px;transition:opacity .15s;white-space:nowrap;flex-shrink:0;
+}
+.dump-add-btn:active{opacity:.75}
+
+/* ─── INLINE ADD (Today / Work / Personal) ─── */
+.inline-add{padding:12px 16px;border-top:1px solid var(–border);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.inline-input{
+flex:1 1 160px;min-width:0;background:var(–s0);border:1.5px solid var(–border);
+border-radius:var(–radius-sm);padding:9px 12px;color:var(–text);
+/* prevent iOS zoom */
+font-size:16px;
+outline:none;transition:border-color .2s;
+}
+.inline-input:focus{border-color:var(–accent)}
+.sm-sel{background:var(–s2);border:1px solid var(–border);border-radius:var(–radius-sm);font-size:11px;padding:0 10px;font-family:‘JetBrains Mono’,monospace;cursor:pointer;height:36px;color:var(–text2)}
+.add-btn{background:var(–accent);color:#000;border:none;border-radius:var(–radius-sm);padding:0 16px;font-weight:700;font-size:12px;cursor:pointer;font-family:‘JetBrains Mono’,monospace;height:36px;letter-spacing:.3px;white-space:nowrap;flex-shrink:0}
+
+/* ─── PULL ROW ─── */
+.pull-row{display:flex;align-items:center;padding:11px 16px;gap:10px;border-top:1px solid var(–border)}
+.pull-row:first-child{border-top:none}
+.pull-txt{flex:1;font-size:13px;color:var(–text2)}
+.pull-btn{background:rgba(201,245,59,.1);color:var(–accent);border:1px solid rgba(201,245,59,.2);border-radius:20px;padding:5px 12px;font-size:11px;cursor:pointer;font-weight:600;font-family:‘JetBrains Mono’,monospace;white-space:nowrap;transition:background .15s}
+.pull-btn:active{background:rgba(201,245,59,.2)}
+
+/* ─── ANCHOR ─── */
+.anchor{display:flex;align-items:center;gap:14px;padding:14px 16px}
+.anchor+.anchor{border-top:1px solid var(–border)}
+.anchor-icon{font-size:18px;width:32px;height:32px;background:var(–s2);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.anchor-lbl{font-size:14px;font-weight:600;color:var(–text)}
+.anchor-desc{font-size:12px;color:var(–text3);margin-top:1px}
+.anchor-time{font-family:‘JetBrains Mono’,monospace;font-size:12px;color:var(–accent);margin-left:auto;white-space:nowrap}
+
+/* ─── HERO CARDS (Brain Dump, Work, etc.) ─── */
+.hero-card{border-radius:var(–radius);padding:20px;position:relative;overflow:hidden}
+.hero-card.dump-hero{background:linear-gradient(135deg,#111400 0%,#0e0e0e 100%);border:1px solid var(–border)}
+.hero-card.work-hero{background:linear-gradient(135deg,var(–work-bg) 0%,#0a0a0a 100%);border:1px solid rgba(96,179,255,.12)}
+.hero-card.pers-hero{background:linear-gradient(135deg,var(–personal-bg) 0%,#0a0a0a 100%);border:1px solid rgba(255,140,90,.12)}
+.hero-card.week-hero{background:linear-gradient(135deg,#0e1410 0%,#0a0a0a 100%);border:1px solid rgba(201,245,59,.1)}
+.hero-title{font-family:‘Syne’,sans-serif;font-size:22px;font-weight:800;letter-spacing:-.3px}
+.hero-sub{font-size:13px;color:var(–text3);margin-top:4px}
+.hero-stats{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap}
+.hero-stat{font-size:12px;font-family:‘JetBrains Mono’,monospace}
+
+/* ─── WEEKLY ─── */
+.big-stat{font-family:‘Syne’,sans-serif;font-size:32px;font-weight:800;line-height:1}
+.big-stat-lbl{font-size:11px;color:var(–text3);margin-top:2px;font-family:‘JetBrains Mono’,monospace}
+.review-row{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;transition:background .12s}
+.review-row+.review-row{border-top:1px solid var(–border)}
+.review-row:active{background:var(–s2)}
+.review-row.done{opacity:.38}
+.review-row.done .review-txt{text-decoration:line-through}
+.review-txt{font-size:14px;color:var(–text);flex:1}
+.reminder{display:flex;gap:12px;padding:10px 0;align-items:flex-start}
+.reminder+.reminder{border-top:1px solid var(–border)}
+.rem-icon{font-size:15px;flex-shrink:0;width:28px;height:28px;background:var(–s2);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.rem-txt{font-size:13px;color:var(–text3);line-height:1.5}
+
+/* ─── EMPTY ─── */
+.empty{padding:36px 20px;text-align:center;color:var(–text3);font-size:13px;line-height:1.6}
+.empty-icon{font-size:28px;margin-bottom:8px}
+
+/* ─── CLEAR BTN ─── */
+.clear-btn{background:none;border:1px solid var(–border);border-radius:var(–radius-sm);color:var(–text3);font-size:10px;padding:5px 10px;cursor:pointer;font-family:‘JetBrains Mono’,monospace;letter-spacing:.5px}
+
+/* ─── LOADING ─── */
+.loading-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.loading-logo{font-family:‘Syne’,sans-serif;font-size:28px;font-weight:800;color:var(–accent);letter-spacing:-.5px}
+.loading-sub{font-family:‘JetBrains Mono’,monospace;font-size:11px;color:var(–text3);letter-spacing:1px}
+.spinner{width:20px;height:20px;border:2px solid var(–border2);border-top-color:var(–accent);border-radius:50%;animation:spin .7s linear infinite;margin-top:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── MISC ─── */
+.divider{height:1px;background:var(–border)}
+.reset-lnk{background:none;border:none;color:var(–text3);cursor:pointer;font-size:13px;padding:2px;transition:color .2s}
+.reset-lnk:hover{color:var(–danger)}
 </style>
+
 </head>
 <body>
-<div id="app"></div>
+<div id="app"><div class="loading-wrap"><div class="loading-logo">ADHD OS</div><div class="loading-sub">LOADING</div><div class="spinner"></div></div></div>
 
 <script>
-// ══════════════════════════════════════════════════════
-//  CONFIG
-// ══════════════════════════════════════════════════════
-const LS_CREDS   = "adhd-os-creds-v1";   // stores { apiKey, binId }
-const LS_CACHE   = "adhd-os-cache-v1";   // offline cache
-const JSONBIN_BASE = "https://api.jsonbin.io/v3";
+// ══════════ CONFIG ══════════
+const LS_CREDS  = "adhd-os-creds-v2";
+const LS_CACHE  = "adhd-os-cache-v2";
+const JB        = "https://api.jsonbin.io/v3";
 
-const DEFAULT_DATA = {
-  tasks: [
-    { id: 1, text: "Review rack deployment checklist", category: "work", priority: "high", done: false, today: false },
-    { id: 3, text: "Check CDU telemetry alerts",       category: "work", priority: "med",  done: false, today: false },
+const DEFAULT = {
+  tasks:[
+    {id:1,text:"Review rack deployment checklist",category:"work",priority:"high",done:false,today:false},
+    {id:3,text:"Check CDU telemetry alerts",category:"work",priority:"med",done:false,today:false},
   ],
-  brainDump: [
-    { id: 2, text: "Buy groceries", category: "personal", priority: "med", done: false },
-    { id: 4, text: "Call dentist",  category: "personal", priority: "low", done: false },
+  brainDump:[
+    {id:2,text:"Buy groceries",category:"personal",priority:"med",done:false},
+    {id:4,text:"Call dentist",category:"personal",priority:"low",done:false},
   ],
 };
 
-// ══════════════════════════════════════════════════════
-//  RUNTIME STATE
-// ══════════════════════════════════════════════════════
-let creds    = null;   // { apiKey, binId }
-let appState = { tasks: [], brainDump: [], activeTab: "Today" };
-let syncStatus = "idle";   // idle | syncing | saved | error | offline
-let saveTimer  = null;
-let pollTimer  = null;
-let lastRemoteVersion = null;  // used to detect remote changes
+// ══════════ STATE ══════════
+let creds       = null;
+let S           = {tasks:[],brainDump:[],tab:"Today"};
+let syncSt      = "idle";
+let saveTimer   = null;
+let pollTimer   = null;
+let reviewState = {};   // persisted separately, not synced (device-local)
 
-// ══════════════════════════════════════════════════════
-//  JSONBIN API
-// ══════════════════════════════════════════════════════
-async function createBin(apiKey, data) {
-  const r = await fetch(`${JSONBIN_BASE}/b`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Master-Key": apiKey, "X-Bin-Name": "adhd-os" },
-    body: JSON.stringify(data),
-  });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  const j = await r.json();
-  return j.metadata.id;
+// ══════════ JSONBIN ══════════
+async function jbCreate(key,data){
+  const r=await fetch(`${JB}/b`,{method:"POST",headers:{"Content-Type":"application/json","X-Master-Key":key,"X-Bin-Name":"adhd-os"},body:JSON.stringify(data)});
+  if(!r.ok)throw new Error(r.status);
+  return (await r.json()).metadata.id;
+}
+async function jbRead(key,id){
+  const r=await fetch(`${JB}/b/${id}/latest`,{headers:{"X-Master-Key":key}});
+  if(!r.ok)throw new Error(r.status);
+  return (await r.json()).record;
+}
+async function jbWrite(key,id,data){
+  const r=await fetch(`${JB}/b/${id}`,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":key},body:JSON.stringify(data)});
+  if(!r.ok)throw new Error(r.status);
 }
 
-async function readBin(apiKey, binId) {
-  const r = await fetch(`${JSONBIN_BASE}/b/${binId}/latest`, {
-    headers: { "X-Master-Key": apiKey },
-  });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  const j = await r.json();
-  lastRemoteVersion = j.metadata?.version ?? null;
-  return j.record;
+// ══════════ SYNC ══════════
+function setSyncUI(s){
+  syncSt=s;
+  const dot=document.getElementById("sdot");
+  const lbl=document.getElementById("slbl");
+  if(!dot||!lbl)return;
+  const M={idle:["#606060","none","SYNC"],syncing:["#c9f53b","none","SAVING…"],saved:["#50e89a","0 0 6px #50e89a","SYNCED"],error:["#ff5252","0 0 6px #ff5252","ERR"],offline:["#ff8c5a","none","OFFLINE"]};
+  const [c,sh,t]=M[s]||M.idle;
+  dot.style.background=c;dot.style.boxShadow=sh;lbl.textContent=t;lbl.style.color=c;
 }
+function cache(d){try{localStorage.setItem(LS_CACHE,JSON.stringify(d))}catch(_){}}
+function loadCache(){try{const r=localStorage.getItem(LS_CACHE);return r?JSON.parse(r):null}catch(_){return null}}
 
-async function writeBin(apiKey, binId, data) {
-  const r = await fetch(`${JSONBIN_BASE}/b/${binId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json", "X-Master-Key": apiKey },
-    body: JSON.stringify(data),
-  });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  const j = await r.json();
-  lastRemoteVersion = j.metadata?.version ?? null;
+async function push(){
+  if(!creds)return;
+  const d={tasks:S.tasks,brainDump:S.brainDump};
+  cache(d);setSyncUI("syncing");
+  try{await jbWrite(creds.apiKey,creds.binId,d);setSyncUI("saved")}
+  catch(e){setSyncUI(navigator.onLine?"error":"offline")}
 }
+function scheduleSave(){clearTimeout(saveTimer);setSyncUI("syncing");saveTimer=setTimeout(push,900)}
 
-// ══════════════════════════════════════════════════════
-//  SYNC LOGIC
-// ══════════════════════════════════════════════════════
-function setSyncStatus(s) {
-  syncStatus = s;
-  const dot  = document.getElementById("sync-dot");
-  const lbl  = document.getElementById("sync-lbl");
-  if (!dot || !lbl) return;
-  const map = {
-    idle:    { color: "var(--muted)",    shadow: "none",                    text: "SYNC" },
-    syncing: { color: "var(--accent)",   shadow: "none",                    text: "SYNCING…" },
-    saved:   { color: "var(--done)",     shadow: "0 0 5px var(--done)",     text: "SYNCED" },
-    error:   { color: "var(--danger)",   shadow: "0 0 5px var(--danger)",   text: "SYNC ERR" },
-    offline: { color: "var(--personal)", shadow: "0 0 5px var(--personal)", text: "OFFLINE" },
-  };
-  const m = map[s] || map.idle;
-  dot.style.background = m.color;
-  dot.style.boxShadow  = m.shadow;
-  lbl.textContent      = m.text;
-  lbl.style.color      = m.color;
-}
-
-function cacheLocally(data) {
-  try { localStorage.setItem(LS_CACHE, JSON.stringify(data)); } catch(_) {}
-}
-
-function loadCache() {
-  try { const r = localStorage.getItem(LS_CACHE); return r ? JSON.parse(r) : null; } catch(_) { return null; }
-}
-
-async function pushToCloud() {
-  if (!creds) return;
-  const payload = { tasks: appState.tasks, brainDump: appState.brainDump };
-  cacheLocally(payload);
-  setSyncStatus("syncing");
-  try {
-    await writeBin(creds.apiKey, creds.binId, payload);
-    setSyncStatus("saved");
-  } catch(e) {
-    setSyncStatus(navigator.onLine ? "error" : "offline");
-  }
-}
-
-function scheduleSave() {
-  clearTimeout(saveTimer);
-  setSyncStatus("syncing");
-  saveTimer = setTimeout(pushToCloud, 900);
-}
-
-async function pullFromCloud(silent = false) {
-  if (!creds) return;
-  if (!silent) setSyncStatus("syncing");
-  try {
-    const remote = await readBin(creds.apiKey, creds.binId);
-    if (remote && remote.tasks) {
-      appState.tasks     = remote.tasks;
-      appState.brainDump = remote.brainDump || [];
-      cacheLocally({ tasks: appState.tasks, brainDump: appState.brainDump });
-      render();
+async function pull(silent=false){
+  if(!creds)return;
+  if(!silent)setSyncUI("syncing");
+  try{
+    const r=await jbRead(creds.apiKey,creds.binId);
+    if(r&&r.tasks){
+      S.tasks=r.tasks;S.brainDump=r.brainDump||[];
+      cache({tasks:S.tasks,brainDump:S.brainDump});
+      renderTabContent();updateBadges();
     }
-    setSyncStatus("saved");
-  } catch(e) {
-    setSyncStatus(navigator.onLine ? "error" : "offline");
-  }
+    setSyncUI("saved");
+  }catch(e){setSyncUI(navigator.onLine?"error":"offline")}
 }
+function startPoll(){clearInterval(pollTimer);pollTimer=setInterval(()=>pull(true),30000)}
 
-// Poll every 30s for changes from other devices
-function startPolling() {
-  clearInterval(pollTimer);
-  pollTimer = setInterval(() => pullFromCloud(true), 30000);
-}
+// ══════════ CREDS ══════════
+function loadCreds(){try{const r=localStorage.getItem(LS_CREDS);return r?JSON.parse(r):null}catch(_){return null}}
+function saveCreds(c){try{localStorage.setItem(LS_CREDS,JSON.stringify(c))}catch(_){}}
 
-// ══════════════════════════════════════════════════════
-//  SETUP FLOW
-// ══════════════════════════════════════════════════════
-function loadCreds() {
-  try { const r = localStorage.getItem(LS_CREDS); return r ? JSON.parse(r) : null; } catch(_) { return null; }
-}
-
-function saveCreds(c) {
-  try { localStorage.setItem(LS_CREDS, JSON.stringify(c)); } catch(_) {}
-}
-
-function resetSetup() {
-  if (!confirm("This will clear your saved API credentials from this device. Your data in the cloud stays safe. Continue?")) return;
+function resetSetup(){
+  if(!confirm("Clear saved credentials from this device? Your cloud data is safe."))return;
   localStorage.removeItem(LS_CREDS);
-  clearInterval(pollTimer);
-  creds = null;
+  clearInterval(pollTimer);creds=null;
   renderSetup();
 }
 
-async function handleSetup() {
-  const apiKey = document.getElementById("apikey-input").value.trim();
-  const binId  = document.getElementById("binid-input").value.trim();
-  const errEl  = document.getElementById("setup-error");
-  const btn    = document.getElementById("setup-submit");
+async function doSetup(){
+  const key=document.getElementById("si-key").value.trim();
+  const bid=document.getElementById("si-bin").value.trim();
+  const err=document.getElementById("si-err");
+  const btn=document.getElementById("si-btn");
+  err.style.display="none";
+  if(!key){showErr("Paste your Master API Key.");return;}
+  btn.disabled=true;btn.textContent="CONNECTING…";
+  try{
+    let resolvedBin=bid;
+    if(!resolvedBin)resolvedBin=await jbCreate(key,DEFAULT);
+    const remote=await jbRead(key,resolvedBin);
+    creds={apiKey:key,binId:resolvedBin};saveCreds(creds);
+    S.tasks=(remote&&remote.tasks)?remote.tasks:DEFAULT.tasks;
+    S.brainDump=(remote&&remote.brainDump)?remote.brainDump:DEFAULT.brainDump;
+    cache({tasks:S.tasks,brainDump:S.brainDump});
+    renderShell();renderTabContent();setSyncUI("saved");startPoll();
+  }catch(e){
+    btn.disabled=false;btn.textContent="CONNECT & SYNC";
+    showErr("Connection failed. Check your API key.");
+  }
+}
+function showErr(m){const e=document.getElementById("si-err");if(e){e.textContent=m;e.style.display="block"}}
 
-  errEl.style.display = "none";
-  if (!apiKey) { showSetupError("Paste your Master API Key."); return; }
+// ══════════ HELPERS ══════════
+function uid(){return Date.now()+Math.floor(Math.random()*9999)}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function priColor(p){return p==="high"?"var(--danger)":p==="med"?"var(--accent)":"var(--text3)"}
+function tagHtml(c){return c==="work"?`<span class="tag tw">WORK</span>`:`<span class="tag tp">PERSONAL</span>`}
+function priDot(p){return `<span class="pdot" style="background:${priColor(p)}"></span>`}
 
-  btn.disabled = true;
-  btn.textContent = "CONNECTING…";
+function taskHtml(t,{showTag=true,pool="tasks"}={}){
+  return `<div class="task${t.done?" faded":""}" data-id="${t.id}">
+    <button class="chk${t.done?" on":""}" onclick="toggle(${t.id},'${pool}')"><span class="chk-mark">✓</span></button>
+    <span class="task-txt">${esc(t.text)}</span>
+    ${showTag?tagHtml(t.category):""}
+    ${t.priority?priDot(t.priority):""}
+    <button class="del" onclick="del(${t.id},'${pool}')">×</button>
+  </div>`;
+}
 
-  try {
-    let resolvedBinId = binId;
+// ══════════ MUTATIONS ══════════
+function toggle(id,pool){
+  S[pool]=S[pool].map(t=>t.id===id?{...t,done:!t.done}:t);
+  // surgical update — no full re-render, no keyboard dismiss
+  const row=document.querySelector(`.task[data-id="${id}"]`);
+  if(row){
+    const t=S[pool].find(x=>x.id===id);
+    row.classList.toggle("faded",t.done);
+    row.querySelector(".task-txt").style.textDecoration=t.done?"line-through":"none";
+    const chk=row.querySelector(".chk");
+    chk.classList.toggle("on",t.done);
+  }
+  updateProgress();updateBadges();scheduleSave();
+}
 
-    if (!resolvedBinId) {
-      // Create a new bin with default data
-      resolvedBinId = await createBin(apiKey, DEFAULT_DATA);
+function del(id,pool){
+  S[pool]=S[pool].filter(t=>t.id!==id);
+  const row=document.querySelector(`.task[data-id="${id}"]`);
+  if(row)row.remove();
+  updateProgress();updateBadges();scheduleSave();
+}
+
+// Brain dump add — no re-render at all, just append DOM node
+function dumpAdd(){
+  const ta=document.getElementById("dump-ta");
+  const catSel=document.getElementById("dump-cat");
+  const priSel=document.getElementById("dump-pri");
+  const text=(ta.value||"").trim();
+  if(!text)return;
+  const t={id:uid(),text,category:catSel.value,priority:priSel.value,done:false};
+  S.brainDump=[...S.brainDump,t];
+  // append item without touching the input
+  const list=document.getElementById("dump-list");
+  if(list){
+    if(list.querySelector(".empty"))list.innerHTML="";
+    const div=document.createElement("div");
+    div.innerHTML=taskHtml(t,{pool:"brainDump"});
+    list.appendChild(div.firstElementChild);
+  }
+  ta.value="";
+  ta.style.height="auto";
+  ta.focus();
+  updateBadges();scheduleSave();
+}
+
+// Inline add for Today/Work/Personal — appends without full re-render
+function inlineAdd(pool,todayFlag){
+  const inp=document.getElementById(`ii-${pool}`);
+  const cat=document.getElementById(`ic-${pool}`);
+  const pri=document.getElementById(`ip-${pool}`);
+  const text=(inp.value||"").trim();
+  if(!text)return;
+  const t={id:uid(),text,category:cat?cat.value:"work",priority:pri?pri.value:"med",done:false,today:!!todayFlag};
+  if(pool==="brainDump"){S.brainDump=[...S.brainDump,t];}
+  else{S.tasks=[...S.tasks,t];}
+  // append
+  const list=document.getElementById(`tl-${pool}`);
+  if(list){
+    if(list.querySelector(".empty"))list.innerHTML="";
+    const div=document.createElement("div");
+    div.innerHTML=taskHtml(t,{showTag:pool!=="work"&&pool!=="personal",pool:"tasks"});
+    list.appendChild(div.firstElementChild);
+  }
+  inp.value="";inp.focus();
+  updateBadges();updateProgress();scheduleSave();
+}
+
+function pullToToday(id){
+  const todayCount=S.tasks.filter(t=>t.today).length;
+  if(todayCount>=3)return;
+  const t=S.brainDump.find(x=>x.id===id);
+  if(!t)return;
+  S.brainDump=S.brainDump.filter(x=>x.id!==id);
+  S.tasks=[...S.tasks,{...t,today:true,done:false}];
+  scheduleSave();renderTabContent();updateBadges();
+}
+
+function clearDone(){
+  S.brainDump=S.brainDump.filter(t=>!t.done);
+  scheduleSave();renderTabContent();updateBadges();
+}
+
+function toggleReview(i){
+  reviewState[i]=!reviewState[i];
+  const row=document.getElementById(`rr-${i}`);
+  const box=document.getElementById(`rb-${i}`);
+  const txt=document.getElementById(`rt-${i}`);
+  if(!row)return;
+  row.classList.toggle("done",reviewState[i]);
+  box.classList.toggle("on",reviewState[i]);
+}
+
+function updateProgress(){
+  const today=S.tasks.filter(t=>t.today);
+  const pct=today.length?Math.round(today.filter(t=>t.done).length/today.length*100):0;
+  const fill=document.getElementById("prog-fill");
+  if(fill)fill.style.width=`${pct}%`;
+  const pctEl=document.getElementById("pct-val");
+  if(pctEl)pctEl.textContent=`${pct}%`;
+}
+
+function updateBadges(){
+  const tb=S.tasks.filter(t=>t.today&&!t.done).length;
+  const db=S.brainDump.filter(t=>!t.done).length;
+  document.querySelectorAll(".tab").forEach(el=>{
+    const t=el.dataset.tab;
+    const b=el.querySelector(".tab-badge");
+    const count=t==="Today"?tb:t==="Brain Dump"?db:0;
+    if(count>0){
+      if(b)b.textContent=count;
+      else el.insertAdjacentHTML("beforeend",`<span class="tab-badge">${count}</span>`);
     } else {
-      // Validate existing bin
-      await readBin(apiKey, resolvedBinId);
+      if(b)b.remove();
     }
-
-    creds = { apiKey, binId: resolvedBinId };
-    saveCreds(creds);
-
-    // Load data from cloud
-    const remote = await readBin(apiKey, resolvedBinId);
-    appState.tasks     = (remote && remote.tasks)     ? remote.tasks     : DEFAULT_DATA.tasks;
-    appState.brainDump = (remote && remote.brainDump) ? remote.brainDump : DEFAULT_DATA.brainDump;
-    cacheLocally({ tasks: appState.tasks, brainDump: appState.brainDump });
-
-    render();
-    setSyncStatus("saved");
-    startPolling();
-  } catch(e) {
-    btn.disabled = false;
-    btn.textContent = "CONNECT & SYNC";
-    showSetupError("Could not connect. Double-check your API key and Bin ID.");
-  }
+  });
 }
 
-function showSetupError(msg) {
-  const el = document.getElementById("setup-error");
-  el.textContent = msg;
-  el.style.display = "block";
-}
-
-// ══════════════════════════════════════════════════════
-//  MUTATIONS
-// ══════════════════════════════════════════════════════
-function genId() { return Date.now() + Math.floor(Math.random() * 9999); }
-
-function toggleTask(id, pool) {
-  appState[pool] = appState[pool].map(t => t.id === id ? { ...t, done: !t.done } : t);
-  scheduleSave(); render();
-}
-
-function deleteTask(id, pool) {
-  appState[pool] = appState[pool].filter(t => t.id !== id);
-  scheduleSave(); render();
-}
-
-function addTask(pool) {
-  const input = document.getElementById(`add-input-${pool}`);
-  const cat   = document.getElementById(`add-cat-${pool}`).value;
-  const pri   = document.getElementById(`add-pri-${pool}`).value;
-  const text  = (input.value || "").trim();
-  if (!text) return;
-  const task = { id: genId(), text, category: cat, priority: pri, done: false };
-  if (pool === "todayDirect") {
-    appState.tasks = [...appState.tasks, { ...task, today: true }];
-  } else if (pool === "tasks") {
-    appState.tasks = [...appState.tasks, { ...task, today: false }];
-  } else {
-    appState[pool] = [...appState[pool], task];
-  }
-  scheduleSave(); render();
-}
-
-function pullToDump(id) {
-  const todayCount = appState.tasks.filter(t => t.today).length;
-  if (todayCount >= 3) return;
-  const task = appState.brainDump.find(t => t.id === id);
-  if (!task) return;
-  appState.brainDump = appState.brainDump.filter(t => t.id !== id);
-  appState.tasks = [...appState.tasks, { ...task, today: true, done: false }];
-  scheduleSave(); render();
-}
-
-function clearDone() {
-  appState.brainDump = appState.brainDump.filter(t => !t.done);
-  scheduleSave(); render();
-}
-
-function switchTab(tab) { appState.activeTab = tab; render(); }
-
-function toggleReview(i) {
-  const row  = document.getElementById(`rev-row-${i}`);
-  const box  = document.getElementById(`rev-box-${i}`);
-  const text = document.getElementById(`rev-txt-${i}`);
-  if (!row) return;
-  const on = row.classList.toggle("done-row");
-  box.classList.toggle("checked", on);
-  text.style.textDecoration = on ? "line-through" : "none";
-}
-
-// ══════════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════════
-function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-function colorForPri(p) { return p==="high"?"var(--danger)":p==="med"?"var(--accent)":"var(--muted)"; }
-function tagHtml(cat) { return cat==="work" ? `<span class="tag tag-work">WORK</span>` : `<span class="tag tag-personal">PERSONAL</span>`; }
-function priDotHtml(p) { return `<span class="priority-dot" style="background:${colorForPri(p)}"></span>`; }
-
-function taskItemHtml(t, { showTag=true, pool="tasks" }={}) {
-  return `
-  <div class="task-item ${t.done?"done":""}" data-id="${t.id}">
-    <button class="check-btn ${t.done?"checked":""}" onclick="toggleTask(${t.id},'${pool}')">
-      <span class="check-icon">✓</span>
-    </button>
-    <span class="task-text">${esc(t.text)}</span>
-    ${showTag ? tagHtml(t.category) : ""}
-    ${t.priority ? priDotHtml(t.priority) : ""}
-    <button class="del-btn" onclick="deleteTask(${t.id},'${pool}')">×</button>
+// ══════════ RENDERERS ══════════
+function renderSetup(){
+  document.getElementById("app").innerHTML=`
+  <div class="setup-wrap">
+    <div class="setup-card">
+      <div class="setup-wordmark">ADHD OS</div>
+      <div class="setup-headline">Connect Cloud Sync</div>
+      <div class="setup-body">Syncs instantly across every device — phone, laptop, Notion. Uses <strong style="color:var(--text)">JSONBin.io</strong> (free).</div>
+      <div class="steps">
+        <div class="step"><div class="step-n">1</div><div class="step-t">Go to <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> → sign up → sidebar → <strong style="color:var(--text)">API Keys</strong> → copy your <strong style="color:var(--text)">Master Key</strong>.</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Paste it below and hit <strong style="color:var(--text)">Connect</strong>. A bin is created automatically.</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">On other devices, use the same key + the <strong style="color:var(--text)">Bin ID</strong> shown after connecting.</div></div>
+      </div>
+      <div class="field-label">MASTER API KEY</div>
+      <input class="setup-input" id="si-key" type="password" placeholder="$2b$10$…" autocomplete="off"/>
+      <div class="field-label">BIN ID <span style="font-weight:400;font-size:11px;color:var(--text3);letter-spacing:0;text-transform:none;font-family:'Inter',sans-serif">(leave blank for first device)</span></div>
+      <input class="setup-input" id="si-bin" type="text" placeholder="64abc123…" autocomplete="off"/>
+      <button class="setup-cta" id="si-btn" onclick="doSetup()">CONNECT &amp; SYNC</button>
+      <div class="setup-err" id="si-err"></div>
+      <div class="setup-note">API key stored only in this browser's localStorage.</div>
+    </div>
   </div>`;
 }
 
-function addBarHtml(pool, defaultCat="work") {
-  return `
-  <div class="add-bar">
-    <input class="add-input" id="add-input-${pool}" placeholder="Add task… (Enter to save)"
-      onkeydown="if(event.key==='Enter')addTask('${pool}')" />
-    <select class="add-select" id="add-cat-${pool}"
-      style="color:${defaultCat==="work"?"var(--work)":"var(--personal)"}"
-      onchange="this.style.color=this.value==='work'?'var(--work)':'var(--personal)'">
-      <option value="work"     ${defaultCat==="work"?"selected":""}>WORK</option>
-      <option value="personal" ${defaultCat==="personal"?"selected":""}>PERSONAL</option>
-    </select>
-    <select class="add-select" id="add-pri-${pool}" style="color:var(--muted)">
-      <option value="high">HIGH</option>
-      <option value="med" selected>MED</option>
-      <option value="low">LOW</option>
-    </select>
-    <button class="add-btn" onclick="addTask('${pool}')">ADD</button>
-  </div>`;
+function renderShell(){
+  const tabs=["Today","Brain Dump","Work","Personal","Weekly Review"];
+  const tb=S.tasks.filter(t=>t.today&&!t.done).length;
+  const db=S.brainDump.filter(t=>!t.done).length;
+  document.getElementById("app").innerHTML=`
+  <div id="header">
+    <div><div class="wordmark">ADHD OS</div><div class="wordmark-sub">EXTERNAL BRAIN</div></div>
+    <div class="hdr-spacer"></div>
+    <span class="bin-id" title="Bin ID — use on other devices">${creds?creds.binId:"—"}</span>
+    <div class="sync-pill" onclick="pull()" title="Tap to sync now">
+      <span class="sync-dot" id="sdot" style="background:var(--done);box-shadow:0 0 6px var(--done)"></span>
+      <span id="slbl" style="color:var(--done)">SYNCED</span>
+    </div>
+    <button class="gear-btn reset-lnk" onclick="resetSetup()" title="Change credentials">⚙</button>
+  </div>
+  <div id="tabs">
+    ${tabs.map(t=>{
+      const b=t==="Today"?tb:t==="Brain Dump"?db:0;
+      return `<button class="tab${S.tab===t?" on":""}" data-tab="${t}" onclick="switchTab('${t}')">${t.toUpperCase()}${b>0?`<span class="tab-badge">${b}</span>`:""}</button>`;
+    }).join("")}
+  </div>
+  <div id="main"><div id="tab-content" class="section"></div></div>`;
 }
 
-// ══════════════════════════════════════════════════════
-//  TAB RENDERERS
-// ══════════════════════════════════════════════════════
-function renderTodayTab() {
-  const today    = appState.tasks.filter(t => t.today);
-  const done     = today.filter(t => t.done).length;
-  const pct      = today.length ? Math.round((done/today.length)*100) : 0;
-  const now      = new Date();
-  const timeStr  = now.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
-  const dateStr  = now.toLocaleDateString([],{weekday:"long",month:"long",day:"numeric"});
-  const canAdd   = today.length < 3;
-  const dumpPend = appState.brainDump.filter(t => !t.done);
+function switchTab(t){
+  S.tab=t;
+  document.querySelectorAll(".tab").forEach(el=>el.classList.toggle("on",el.dataset.tab===t));
+  renderTabContent();
+}
+
+function renderTabContent(){
+  const el=document.getElementById("tab-content");
+  if(!el)return;
+  const map={
+    "Today":renderToday,
+    "Brain Dump":renderDump,
+    "Work":()=>renderList("work"),
+    "Personal":()=>renderList("personal"),
+    "Weekly Review":renderWeekly,
+  };
+  el.innerHTML=(map[S.tab]||renderToday)();
+  // re-attach auto-resize to textarea if present
+  const ta=document.getElementById("dump-ta");
+  if(ta){
+    ta.addEventListener("input",function(){this.style.height="auto";this.style.height=this.scrollHeight+"px"});
+  }
+}
+
+function renderToday(){
+  const today=S.tasks.filter(t=>t.today);
+  const done=today.filter(t=>t.done).length;
+  const pct=today.length?Math.round(done/today.length*100):0;
+  const now=new Date();
+  const timeStr=now.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+  const dateStr=now.toLocaleDateString([],{weekday:"long",month:"long",day:"numeric"});
+  const canAdd=today.length<3;
+  const pending=S.brainDump.filter(t=>!t.done);
 
   return `
   <div class="clock-card">
     <div>
-      <div class="clock" id="live-clock">${timeStr}</div>
-      <div class="date-str">${dateStr}</div>
+      <div class="clock-val" id="live-clock">${timeStr}</div>
+      <div class="clock-date">${dateStr}</div>
     </div>
     <div>
-      <div class="pct">${pct}%</div>
-      <div class="pct-sub">done today</div>
+      <div class="pct-val" id="pct-val">${pct}%</div>
+      <div class="pct-lbl">done today</div>
       <div class="pct-tags">
-        <span style="font-size:11px;color:var(--work)">✦ ${today.filter(t=>t.done&&t.category==="work").length} work</span>
-        <span style="font-size:11px;color:var(--personal)">✦ ${today.filter(t=>t.done&&t.category==="personal").length} personal</span>
+        <span class="pct-tag" style="color:var(--work)">✦ ${today.filter(t=>t.done&&t.category==="work").length} work</span>
+        <span class="pct-tag" style="color:var(--personal)">✦ ${today.filter(t=>t.done&&t.category==="personal").length} personal</span>
       </div>
     </div>
   </div>
 
-  <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:${pct}%"></div></div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-title accent">TODAY'S 3 — ${today.length}/3</span>
-      ${canAdd?'<span style="font-size:11px;color:var(--muted)">Pull from Brain Dump ↓</span>':""}
+    <div class="card-hdr">
+      <span class="card-title hi">TODAY'S 3 — ${today.length}/3</span>
+      ${canAdd?'<span class="card-hint">Pull from Brain Dump ↓</span>':""}
     </div>
-    ${today.length===0?'<div class="empty">No tasks yet. Pull from Brain Dump or add below.</div>':today.map(t=>taskItemHtml(t,{pool:"tasks"})).join("")}
-    ${canAdd?addBarHtml("todayDirect"):""}
+    <div id="tl-today">
+      ${today.length===0?`<div class="empty"><div class="empty-icon">📋</div>No tasks yet.<br>Add one below or pull from Brain Dump.</div>`:today.map(t=>taskHtml(t,{pool:"tasks"})).join("")}
+    </div>
+    ${canAdd?`<div class="inline-add">
+      <input class="inline-input" id="ii-today" placeholder="Add a task…" onkeydown="if(event.key==='Enter')inlineAdd('today',true)"/>
+      <select class="sm-sel" id="ic-today"><option value="work">WORK</option><option value="personal">PERSONAL</option></select>
+      <select class="sm-sel" id="ip-today"><option value="high">HIGH</option><option value="med" selected>MED</option><option value="low">LOW</option></select>
+      <button class="add-btn" onclick="inlineAdd('today',true)">ADD</button>
+    </div>`:""}
   </div>
 
-  ${dumpPend.length>0&&canAdd?`
+  ${pending.length>0&&canAdd?`
   <div class="card">
-    <div class="card-header"><span class="card-title">PULL FROM BRAIN DUMP</span></div>
-    ${dumpPend.slice(0,5).map(t=>`
-    <div class="dump-row">
-      <span style="flex:1;font-size:14px;color:var(--muted)">${esc(t.text)}</span>
+    <div class="card-hdr"><span class="card-title">PULL FROM BRAIN DUMP</span></div>
+    ${pending.slice(0,6).map(t=>`
+    <div class="pull-row">
+      <span class="pull-txt">${esc(t.text)}</span>
       ${tagHtml(t.category)}
-      <button class="pull-btn" onclick="pullToDump(${t.id})">→ TODAY</button>
+      <button class="pull-btn" onclick="pullToToday(${t.id})">→ TODAY</button>
     </div>`).join("")}
   </div>`:""}
 
   <div class="card">
-    <div class="card-header"><span class="card-title">TIME ANCHORS</span></div>
+    <div class="card-hdr"><span class="card-title">TIME ANCHORS</span></div>
     ${[
-      {time:"8:00 AM",  label:"Morning anchor",  desc:"Pick your 3 tasks",      icon:"☀️"},
-      {time:"12:00 PM", label:"Midday check-in",  desc:"2 min reprioritize",     icon:"⚡"},
-      {time:"5:00 PM",  label:"End of day",       desc:"Hard stop. Close out.",  icon:"🔒"},
+      {time:"8:00 AM",label:"Morning anchor",desc:"Pick your 3 tasks",icon:"☀️"},
+      {time:"12:00 PM",label:"Midday check-in",desc:"2 min reprioritize",icon:"⚡"},
+      {time:"5:00 PM",label:"End of day",desc:"Hard stop. Close out.",icon:"🔒"},
     ].map(a=>`
-    <div class="anchor-row">
-      <span style="font-size:20px">${a.icon}</span>
-      <div><div style="font-size:14px;font-weight:600">${a.label}</div><div style="font-size:12px;color:var(--muted)">${a.desc}</div></div>
+    <div class="anchor">
+      <div class="anchor-icon">${a.icon}</div>
+      <div><div class="anchor-lbl">${a.label}</div><div class="anchor-desc">${a.desc}</div></div>
       <span class="anchor-time">${a.time}</span>
     </div>`).join("")}
   </div>`;
 }
 
-function renderBrainDumpTab() {
-  const bd = appState.brainDump;
-  const doneCount = bd.filter(t=>t.done).length;
+function renderDump(){
+  const bd=S.brainDump;
+  const doneCount=bd.filter(t=>t.done).length;
   return `
-  <div class="dump-header">
+  <div class="hero-card dump-hero">
     <div style="display:flex;justify-content:space-between;align-items:flex-start">
       <div>
-        <div style="font-size:22px;font-weight:900;color:var(--accent);font-family:'DM Mono',monospace">BRAIN DUMP</div>
-        <div style="color:var(--muted);font-size:13px;margin-top:4px">Don't filter. Just capture.</div>
+        <div class="hero-title" style="color:var(--accent)">BRAIN DUMP</div>
+        <div class="hero-sub">Don't filter. Don't judge. Just capture.</div>
       </div>
       ${doneCount>0?`<button class="clear-btn" onclick="clearDone()">CLEAR ${doneCount} DONE</button>`:""}
     </div>
-    <div style="display:flex;gap:16px;margin-top:12px">
-      <span style="font-size:12px;color:var(--work)">● ${bd.filter(t=>t.category==="work").length} work</span>
-      <span style="font-size:12px;color:var(--personal)">● ${bd.filter(t=>t.category==="personal").length} personal</span>
-      <span style="font-size:12px;color:var(--muted)">● ${doneCount} done</span>
+    <div class="hero-stats">
+      <span class="hero-stat" style="color:var(--work)">● ${bd.filter(t=>t.category==="work").length} work</span>
+      <span class="hero-stat" style="color:var(--personal)">● ${bd.filter(t=>t.category==="personal").length} personal</span>
+      <span class="hero-stat" style="color:var(--text3)">● ${doneCount} done</span>
     </div>
   </div>
+
   <div class="card">
-    ${addBarHtml("brainDump")}
-    ${bd.length===0?'<div class="empty">Empty. Start dumping everything from your head.</div>':bd.map(t=>taskItemHtml(t,{pool:"brainDump"})).join("")}
+    <div class="dump-composer">
+      <textarea
+        class="dump-textarea"
+        id="dump-ta"
+        placeholder="What's in your head right now…"
+        rows="2"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();dumpAdd()}"
+      ></textarea>
+
+```
+  <div class="dump-composer-row">
+    <select class="pill-sel cat-work" id="dump-cat"
+      onchange="this.className='pill-sel '+(this.value==='work'?'cat-work':'cat-personal')">
+      <option value="work">WORK</option>
+      <option value="personal">PERSONAL</option>
+    </select>
+    <select class="pill-sel" id="dump-pri" style="color:var(--text2)">
+      <option value="high">HIGH</option>
+      <option value="med" selected>MED</option>
+      <option value="low">LOW</option>
+    </select>
+    <button class="dump-add-btn" onclick="dumpAdd()">CAPTURE ↵</button>
+  </div>
+</div>
+<div id="dump-list">
+  ${bd.length===0?`<div class="empty"><div class="empty-icon">🧠</div>Your brain dump is empty.<br>Type something above and hit Enter.</div>`:bd.map(t=>taskHtml(t,{pool:"brainDump"})).join("")}
+</div>
+```
+
   </div>`;
 }
 
-function renderListTab(category) {
-  const filtered = appState.tasks.filter(t=>t.category===category&&!t.today);
-  const color = category==="work"?"var(--work)":"var(--personal)";
-  const groups = {high:[],med:[],low:[]};
-  filtered.forEach(t=>(groups[t.priority||"med"]||groups.med).push(t));
-  return `
-  <div class="cat-card" style="border-left:4px solid ${color}">
-    <div style="font-size:22px;font-weight:900;color:${color};font-family:'DM Mono',monospace">${category.toUpperCase()}</div>
-    <div style="color:var(--muted);font-size:13px;margin-top:4px">${filtered.length} tasks · ${filtered.filter(t=>t.done).length} done</div>
+function renderList(cat){
+const filtered=S.tasks.filter(t=>t.category===cat&&!t.today);
+const color=cat===“work”?“var(–work)”:“var(–personal)”;
+const heroClass=cat===“work”?“work-hero”:“pers-hero”;
+const groups={high:[],med:[],low:[]};
+filtered.forEach(t=>(groups[t.priority||“med”]||groups.med).push(t));
+
+return `
+
+  <div class="hero-card ${heroClass}">
+    <div class="hero-title" style="color:${color}">${cat.toUpperCase()}</div>
+    <div class="hero-sub">${filtered.length} tasks · ${filtered.filter(t=>t.done).length} done</div>
   </div>
+
   <div class="card">
-    ${addBarHtml("tasks",category)}
-    ${["high","med","low"].map(pri=>groups[pri].length>0?`
-    <div class="pri-group-label">${priDotHtml(pri)} ${pri.toUpperCase()} PRIORITY</div>
-    ${groups[pri].map(t=>taskItemHtml(t,{showTag:false,pool:"tasks"})).join("")}`:"").join("")}
-    ${filtered.length===0?'<div class="empty">No tasks yet.</div>':""}
+    <div class="inline-add">
+      <input class="inline-input" id="ii-${cat}" placeholder="Add task… (Enter)" onkeydown="if(event.key==='Enter')inlineAdd('${cat}',false)"/>
+      <select class="sm-sel" id="ip-${cat}"><option value="high">HIGH</option><option value="med" selected>MED</option><option value="low">LOW</option></select>
+      <button class="add-btn" onclick="inlineAdd('${cat}',false)">ADD</button>
+    </div>
+    <div id="tl-${cat}">
+      ${["high","med","low"].map(pri=>groups[pri].length>0?`
+      <div class="pri-label">${priDot(pri)} ${pri.toUpperCase()}</div>
+      ${groups[pri].map(t=>taskHtml(t,{showTag:false,pool:"tasks"})).join("")}`:"").join("")}
+      ${filtered.length===0?`<div class="empty"><div class="empty-icon">${cat==="work"?"💼":"🏠"}</div>No tasks yet. Add one above.</div>`:""}
+    </div>
   </div>`;
 }
 
-function renderWeeklyTab() {
-  const all = [...appState.tasks,...appState.brainDump];
-  const pct = all.length?Math.round((all.filter(t=>t.done).length/all.length)*100):0;
-  const wT  = appState.tasks.filter(t=>t.category==="work");
-  const pT  = appState.tasks.filter(t=>t.category==="personal");
-  const tips = [
-    "10 min Sunday: sort Brain Dump → Work and Personal lists",
-    "Check if any high-priority tasks are overdue",
-    "Reset your 3 time anchor alarms",
-    "Reflect: what kept derailing you last week?",
-    "Clear done items from Brain Dump",
-  ];
-  return `
-  <div class="weekly-header" style="border-left:4px solid var(--accent)">
-    <div style="font-size:22px;font-weight:900;color:var(--text);font-family:'DM Mono',monospace">WEEKLY REVIEW</div>
-    <div style="color:var(--muted);font-size:13px;margin-top:4px">Every Sunday or Monday morning. 10 minutes.</div>
-    <div class="stats-row">
-      <div><div class="stat-block" style="color:var(--accent)">${pct}%</div><div class="stat-label">overall</div></div>
-      <div><div class="stat-block" style="color:var(--work)">${wT.filter(t=>t.done).length}/${wT.length}</div><div class="stat-label">work</div></div>
-      <div><div class="stat-block" style="color:var(--personal)">${pT.filter(t=>t.done).length}/${pT.length}</div><div class="stat-label">personal</div></div>
+function renderWeekly(){
+const all=[…S.tasks,…S.brainDump];
+const pct=all.length?Math.round(all.filter(t=>t.done).length/all.length*100):0;
+const wT=S.tasks.filter(t=>t.category===“work”);
+const pT=S.tasks.filter(t=>t.category===“personal”);
+const tips=[
+“Sort Brain Dump → Work and Personal lists”,
+“Check for overdue high-priority tasks”,
+“Reset your 3 time anchor alarms”,
+“What kept derailing you last week?”,
+“Clear done items from Brain Dump”,
+];
+return `
+
+  <div class="hero-card week-hero">
+    <div class="hero-title" style="color:var(--text)">WEEKLY REVIEW</div>
+    <div class="hero-sub">Every Sunday or Monday. Takes 10 minutes.</div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:18px">
+      ${[
+        {v:`${pct}%`,l:"overall",c:"var(--accent)"},
+        {v:`${wT.filter(t=>t.done).length}/${wT.length}`,l:"work",c:"var(--work)"},
+        {v:`${pT.filter(t=>t.done).length}/${pT.length}`,l:"personal",c:"var(--personal)"},
+      ].map(s=>`<div><div class="big-stat" style="color:${s.c}">${s.v}</div><div class="big-stat-lbl">${s.l}</div></div>`).join("")}
     </div>
   </div>
+
   <div class="card">
-    <div class="card-header"><span class="card-title">REVIEW CHECKLIST</span></div>
+    <div class="card-hdr"><span class="card-title">REVIEW CHECKLIST</span></div>
     ${tips.map((tip,i)=>`
-    <div class="check-row" id="rev-row-${i}" onclick="toggleReview(${i})">
-      <div class="check-btn" id="rev-box-${i}" style="cursor:pointer;flex-shrink:0"><span class="check-icon">✓</span></div>
-      <span class="review-text" id="rev-txt-${i}">${tip}</span>
+    <div class="review-row${reviewState[i]?" done":""}" id="rr-${i}" onclick="toggleReview(${i})">
+      <div class="chk${reviewState[i]?" on":""}" id="rb-${i}" style="cursor:pointer;flex-shrink:0"><span class="chk-mark">✓</span></div>
+      <span class="review-txt" id="rt-${i}">${tip}</span>
     </div>`).join("")}
   </div>
-  <div class="reminders-card">
-    <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:12px">ADHD REMINDERS</div>
+
+  <div class="card" style="padding:16px 16px 8px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text3);letter-spacing:1px;margin-bottom:12px">ADHD REMINDERS</div>
     ${[
       {icon:"🧠",tip:"3 tasks max per day. Not 10. Three."},
       {icon:"⏱",tip:"Time blindness is real — use alarms, not willpower."},
@@ -588,133 +772,34 @@ function renderWeeklyTab() {
       {icon:"🔄",tip:"Transitions are hard. Give yourself 5 min between contexts."},
       {icon:"✅",tip:"Done > perfect. Messy progress beats perfect inaction."},
     ].map(r=>`
-    <div class="reminder-row">
-      <span style="font-size:16px">${r.icon}</span>
-      <span style="font-size:13px;color:var(--muted)">${r.tip}</span>
+    <div class="reminder">
+      <div class="rem-icon">${r.icon}</div>
+      <div class="rem-txt">${r.tip}</div>
     </div>`).join("")}
   </div>`;
 }
 
-// ══════════════════════════════════════════════════════
-//  SETUP SCREEN
-// ══════════════════════════════════════════════════════
-function renderSetup() {
-  document.getElementById("app").innerHTML = `
-  <div class="setup-screen">
-    <div class="setup-card">
-      <div class="setup-logo">ADHD OS</div>
-      <div class="setup-title">Connect Cloud Sync</div>
-      <div class="setup-sub">Your data will sync instantly across every device — phone, laptop, Notion embed. Uses <strong style="color:var(--text)">JSONBin.io</strong> (free, takes 2 min to set up).</div>
+// ══════════ CLOCK TICK ══════════
+setInterval(()=>{
+const el=document.getElementById(“live-clock”);
+if(el)el.textContent=new Date().toLocaleTimeString([],{hour:“2-digit”,minute:“2-digit”});
+},15000);
 
-      <div class="setup-steps">
-        <div class="setup-step">
-          <div class="step-num">1</div>
-          <div class="step-text">Go to <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> → sign up free → click <strong style="color:var(--text)">API Keys</strong> in the sidebar → copy your <strong style="color:var(--text)">Master Key</strong>.</div>
-        </div>
-        <div class="setup-step">
-          <div class="step-num">2</div>
-          <div class="step-text">Paste it below and hit <strong style="color:var(--text)">Connect</strong>. A new bin will be created automatically with your starter data.</div>
-        </div>
-        <div class="setup-step">
-          <div class="step-num">3</div>
-          <div class="step-text">On your other devices, paste the same API Key <em>and</em> the Bin ID that appears after connecting (shown in the header).</div>
-        </div>
-      </div>
+// ══════════ ONLINE / OFFLINE ══════════
+window.addEventListener(“online”, ()=>pull(false));
+window.addEventListener(“offline”,()=>setSyncUI(“offline”));
 
-      <div class="setup-field-label">MASTER API KEY</div>
-      <input class="setup-input" id="apikey-input" type="password" placeholder="$2b$10$..." autocomplete="off" />
-
-      <div class="setup-field-label">BIN ID <span style="font-weight:400;letter-spacing:0;text-transform:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px">(leave blank to create a new one)</span></div>
-      <input class="setup-input" id="binid-input" type="text" placeholder="64abc123..." autocomplete="off" />
-
-      <button class="setup-btn" id="setup-submit" onclick="handleSetup()">CONNECT &amp; SYNC</button>
-      <div class="setup-error" id="setup-error"></div>
-      <div class="setup-note">Your API key is stored only in this browser's localStorage — never sent anywhere except JSONBin's API.</div>
-    </div>
-  </div>`;
-}
-
-// ══════════════════════════════════════════════════════
-//  MAIN RENDER
-// ══════════════════════════════════════════════════════
-let clockTick = null;
-function render() {
-  clearInterval(clockTick);
-  const tabs = ["Today","Brain Dump","Work","Personal","Weekly Review"];
-  const todayBadge = appState.tasks.filter(t=>t.today&&!t.done).length;
-  const dumpBadge  = appState.brainDump.filter(t=>!t.done).length;
-  const binId = creds ? creds.binId : "—";
-
-  document.getElementById("app").innerHTML = `
-  <div class="header">
-    <div>
-      <div class="logo">ADHD OS</div>
-      <div class="logo-sub">your external brain</div>
-    </div>
-    <div class="spacer"></div>
-    <span style="font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;margin-right:4px" title="Bin ID — use this on other devices">${binId}</span>
-    <div class="sync-badge" onclick="pullFromCloud()" title="Click to force sync">
-      <span class="sync-dot" id="sync-dot" style="background:var(--done);box-shadow:0 0 5px var(--done)"></span>
-      <span id="sync-lbl" style="color:var(--done)">SYNCED</span>
-    </div>
-    <span class="reset-link" onclick="resetSetup()" title="Change API key / switch bin">⚙</span>
-  </div>
-
-  <div class="tabs">
-    ${tabs.map(tab=>{
-      const b = tab==="Today"?todayBadge:tab==="Brain Dump"?dumpBadge:0;
-      return `<button class="tab-btn ${appState.activeTab===tab?"active":""}" onclick="switchTab('${tab}')">
-        ${tab.toUpperCase()}
-        ${b>0?`<span class="badge">${b}</span>`:""}
-      </button>`;
-    }).join("")}
-  </div>
-
-  <div class="content">
-    ${appState.activeTab==="Today"         ? renderTodayTab()         :
-      appState.activeTab==="Brain Dump"    ? renderBrainDumpTab()     :
-      appState.activeTab==="Work"          ? renderListTab("work")    :
-      appState.activeTab==="Personal"      ? renderListTab("personal"):
-      renderWeeklyTab()}
-  </div>`;
-
-  if (appState.activeTab === "Today") {
-    clockTick = setInterval(()=>{ const el=document.getElementById("live-clock"); if(el) el.textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); }, 15000);
-  }
-}
-
-// ══════════════════════════════════════════════════════
-//  BOOT
-// ══════════════════════════════════════════════════════
-async function boot() {
-  document.getElementById("app").innerHTML = `<div class="loading-screen"><div>LOADING…</div><div class="loading-sub">ADHD OS</div></div>`;
-
-  creds = loadCreds();
-
-  if (!creds) {
-    renderSetup();
-    return;
-  }
-
-  // Load from cache immediately so UI appears fast
-  const cached = loadCache();
-  if (cached) {
-    appState.tasks     = cached.tasks     || DEFAULT_DATA.tasks;
-    appState.brainDump = cached.brainDump || DEFAULT_DATA.brainDump;
-  }
-
-  render();
-  setSyncStatus("syncing");
-
-  // Then pull latest from cloud
-  await pullFromCloud(false);
-  startPolling();
-}
-
-window.addEventListener("online",  () => pullFromCloud(false));
-window.addEventListener("offline", () => setSyncStatus("offline"));
-
-boot();
+// ══════════ BOOT ══════════
+(async function boot(){
+creds=loadCreds();
+if(!creds){renderSetup();return;}
+const cached=loadCache();
+if(cached){S.tasks=cached.tasks||DEFAULT.tasks;S.brainDump=cached.brainDump||DEFAULT.brainDump;}
+renderShell();renderTabContent();setSyncUI(“syncing”);
+await pull(false);
+startPoll();
+})();
 </script>
+
 </body>
 </html>
